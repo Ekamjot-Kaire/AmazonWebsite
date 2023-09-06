@@ -4,8 +4,8 @@
 @import "{{ site.theme }}";
 
 body {
-  --bg-color: #e5a484 !important;
-  --bg-color-light: #d69675; 
+  --bg-color: #f5ede7 !important;
+  --bg-color-light: #ffdcc2; 
   background: linear-gradient(-45deg, var(--bg-color), var(--bg-color-light), var(--bg-color), var(--bg-color-light));
   background-size: 1200% 1200% !important;
   animation: gradient 15s ease infinite !important;
