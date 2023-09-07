@@ -1,101 +1,110 @@
-<html>
-<head>
-  <title>Hotel Search</title>
-</head>
-<body>
-  <div>
-    <input type="text" id="locationInput" placeholder="Enter Location">
-    <input type="number" id="priceInput" placeholder="Enter Max Price">
-    <input type="number" id="nightsInput" placeholder="Enter Nights Staying">
-    <button onclick="fetchHotels()">Search</button>
-  </div>
+<div>
+  <input type="text" id="locationInput" placeholder="Enter Location">
+  <input type="number" id="priceInput" placeholder="Enter Max Price">
+  <button onclick="fetchData()">Search</button>
+</div>
 
-  <!-- HTML table fragment for displaying hotel results -->
-  <table>
-    <thead>
-      <tr>
-        <th>Hotel Name</th>
-        <th>Location</th>
-        <th>Price</th>
-        <th>Nights Staying</th>
-        <th>Image</th>
-      </tr>
-    </thead>
-    <tbody id="result">
-      <!-- Generated rows will be displayed here -->
-    </tbody>
-  </table>
+<!-- HTML table fragment for page -->
+<table>
+  <thead>
+    <tr>
+      <th>Hotel Name</th>
+      <th>Image</th>
+      <th>Location</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody id="result">
+    <!-- generated rows -->
+  </tbody>
+</table>
 
-  <script>
-    const resultContainer = document.getElementById("result");
+<!-- Script is laid out in a sequence (no function) and will execute when the page is loaded -->
+<script>
+  // prepare HTML result container for new output
+  const resultContainer = document.getElementById("result");
 
-    function fetchHotels() {
-      resultContainer.innerHTML = "";
+  // function to fetch data based on user input
+  function fetchData() {
+    // clear previous results
+    resultContainer.innerHTML = "";
 
-      const locationInput = document.getElementById("locationInput").value;
-      const maxPrice = document.getElementById("priceInput").value;
-      const nightsStaying = document.getElementById("nightsInput").value;
+    // get user input
+    const locationInput = document.getElementById("locationInput");
+    const locationfilter = locationInput.value;
 
-      const url = `https://rapidapi.com/apidojo/api/hotels4/search?location=${encodeURIComponent(locationInput)}&priceMax=${maxPrice}&nights=${nightsStaying}`;
-      const headers = {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Host': 'apidojo-hotel-v1.p.rapidapi.com',
-          'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY', 
-        },
-      };
+    const priceInput = document.getElementById("priceInput");
+    const pricefilter = priceInput.value;
 
-      fetch(url, headers)
-        .then(response => {
-          if (response.status !== 200) {
-            const errorMsg = 'API response error: ' + response.status;
-            console.error(errorMsg);
-            const tr = document.createElement("tr");
-            const td = document.createElement("td");
-            td.innerHTML = errorMsg;
-            tr.appendChild(td);
-            resultContainer.appendChild(tr);
-            return;
-          }
-          response.json().then(data => {
-            console.log(data);
+    // prepare fetch options
+    const url = "https://hotels4.p.rapidapi.com/v2/get-meta-data" + encodeURIComponent(locationfilter) + encodeURIComponent(pricefilter);
+    const headers = {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'default',
+      credentials: 'omit',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
 
-            for (const hotel of data.data.body.searchResults.results) {
-              const tr = document.createElement("tr");
-              const name = document.createElement("td");
-              const location = document.createElement("td");
-              const price = document.createElement("td");
-              const nights = document.createElement("td");
-              const image = document.createElement("td");
-
-              name.innerHTML = hotel.name;
-              location.innerHTML = hotel.address.streetAddress;
-              price.innerHTML = hotel.ratePlan.price.exactCurrent;
-              nights.innerHTML = nightsStaying;
-
-              const img = document.createElement("img");
-              img.src = hotel.optimizedThumbUrls.srpDesktop;
-              image.appendChild(img);
-
-              tr.appendChild(name);
-              tr.appendChild(location);
-              tr.appendChild(price);
-              tr.appendChild(nights);
-              tr.appendChild(image);
-
-              resultContainer.appendChild(tr);
-            }
-          })
-        })
-        .catch(err => {
-          console.error(err);
+    // fetch the API
+    fetch(url, headers)
+      .then(response => {
+        // check for response errors
+        if (response.status !== 200) {
+          const errorMsg = 'Database response error: ' + response.status;
+          console.log(errorMsg);
           const tr = document.createElement("tr");
           const td = document.createElement("td");
-          td.innerHTML = err;
+          td.innerHTML = errorMsg;
           tr.appendChild(td);
           resultContainer.appendChild(tr);
-        });
-    }
-  </script>
-</body>
-</html>
+          return;
+        }
+        // valid response will have JSON data
+        response.json().then(data => {
+          console.log(data);
+
+          // Hotel data
+        for (const row of data.results) {
+            console.log(row);
+
+            // tr for each row
+            const tr = document.createElement("tr");
+            // td for each column
+            const hotel = document.createElement("td");
+            const image = document.createElement("td");
+            const location = document.createElement("td");
+            const price = document.createElement("td");
+
+            // data is specific to the API
+            hotel.innerHTML = row.hotel;
+            // create preview image
+            const img = document.createElement("img");
+            img.src = row.artworkUrl100;
+            image.appendChild(img);
+            location.innerHTML = row.location;
+            price.innerHTML = row.price;
+
+            // this builds td's into tr
+            tr.appendChild(hotel);
+            tr.appendChild(image);
+            tr.appendChild(location);
+            tr.appendChild(price);
+
+            // add HTML to container
+            resultContainer.appendChild(tr);
+          }
+        })
+      })
+      .catch(err => {
+        console.error(err);
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.innerHTML = err;
+        tr.appendChild(td);
+        resultContainer.appendChild(tr);
+      });
+  }
+</script>
