@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>Hotel Recommendations</title>
@@ -18,7 +17,7 @@
     </style>
 </head>
 <body>
-    <h1>Find a Hotel!</h1>
+    <h1>Where to?</h1>
     <label for="searchbar">Enter City Name: </label>
     <input type="text" id="searchbar">
     <br>
@@ -61,7 +60,7 @@
         <option value="OK">Oklahoma</option>
         <option value="OR">Oregon</option>
         <option value="PA">Pennsylvania</option>
-         <option value="RI">Rhode Island</option>
+        <option value="RI">Rhode Island</option>
         <option value="SC">South Carolina</option>
         <option value="SD">South Dakota</option>
         <option value="TN">Tennessee</option>

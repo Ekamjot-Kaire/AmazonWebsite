@@ -1,110 +1,76 @@
-<div>
-  <input type="text" id="locationInput" placeholder="Enter Location">
-  <input type="number" id="priceInput" placeholder="Enter Max Price">
-  <button onclick="fetchData()">Search</button>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <input id="locationInput" type="text" placeholder="Enter Location">
+  <input id="priceInput" type="text" placeholder="Enter Price">
+  <button id="fetchButton">Fetch Data</button>
+  <table id="result">
+    <!-- Result data will be displayed here -->
+  </table>
 
-<!-- HTML table fragment for page -->
-<table>
-  <thead>
-    <tr>
-      <th>Hotel Name</th>
-      <th>Image</th>
-      <th>Location</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody id="result">
-    <!-- generated rows -->
-  </tbody>
-</table>
+  <script>
+    $(document).ready(function () {
+      // function to fetch data based on user input
+      function fetchData() {
+        // clear previous results
+        $("#result").empty();
 
-<!-- Script is laid out in a sequence (no function) and will execute when the page is loaded -->
-<script>
-  // prepare HTML result container for new output
-  const resultContainer = document.getElementById("result");
+        // get user input
+        const locationInput = $("#locationInput").val();
+        const priceInput = $("#priceInput").val();
 
-  // function to fetch data based on user input
-  function fetchData() {
-    // clear previous results
-    resultContainer.innerHTML = "";
+        // prepare fetch options
+        const url = 'https://booking-com.p.rapidapi.com/v1/metadata/exchange-rates?currency=AED&locale=en-gb';
+        const headers = {
+          'X-RapidAPI-Key': '68e33219d8msh2a2a73644dd8e5ep1ffc0djsn22e47a8354fe',
+          'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
+        };
 
-    // get user input
-    const locationInput = document.getElementById("locationInput");
-    const locationfilter = locationInput.value;
+        // fetch the API using jQuery
+        $.ajax({
+          url: url,
+          headers: headers,
+          method: 'GET',
+          dataType: 'json',
+          success: function (data) {
+            console.log(data);
 
-    const priceInput = document.getElementById("priceInput");
-    const pricefilter = priceInput.value;
+            // Hotel data
+            $.each(data.results, function (index, row) {
+              // create a new row
+              const tr = $("<tr>");
 
-    // prepare fetch options
-    const url = "https://hotels4.p.rapidapi.com/v2/get-meta-data" + encodeURIComponent(locationfilter) + encodeURIComponent(pricefilter);
-    const headers = {
-      method: 'GET',
-      mode: 'cors',
-      cache: 'default',
-      credentials: 'omit',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    };
+              // create table cells for each column
+              const hotel = $("<td>").text(row.hotel);
+              const image = $("<td>").append($("<img>").attr("src", row.artworkUrl100));
+              const location = $("<td>").text(row.location);
+              const price = $("<td>").text(row.price);
 
-    // fetch the API
-    fetch(url, headers)
-      .then(response => {
-        // check for response errors
-        if (response.status !== 200) {
-          const errorMsg = 'Database response error: ' + response.status;
-          console.log(errorMsg);
-          const tr = document.createElement("tr");
-          const td = document.createElement("td");
-          td.innerHTML = errorMsg;
-          tr.appendChild(td);
-          resultContainer.appendChild(tr);
-          return;
-        }
-        // valid response will have JSON data
-        response.json().then(data => {
-          console.log(data);
+              // append cells to the row
+              tr.append(hotel);
+              tr.append(image);
+              tr.append(location);
+              tr.append(price);
 
-          // Hotel data
-        for (const row of data.results) {
-            console.log(row);
-
-            // tr for each row
-            const tr = document.createElement("tr");
-            // td for each column
-            const hotel = document.createElement("td");
-            const image = document.createElement("td");
-            const location = document.createElement("td");
-            const price = document.createElement("td");
-
-            // data is specific to the API
-            hotel.innerHTML = row.hotel;
-            // create preview image
-            const img = document.createElement("img");
-            img.src = row.artworkUrl100;
-            image.appendChild(img);
-            location.innerHTML = row.location;
-            price.innerHTML = row.price;
-
-            // this builds td's into tr
-            tr.appendChild(hotel);
-            tr.appendChild(image);
-            tr.appendChild(location);
-            tr.appendChild(price);
-
-            // add HTML to container
-            resultContainer.appendChild(tr);
+              // add the row to the result container
+              $("#result").append(tr);
+            });
+          },
+          error: function (err) {
+            console.error(err);
+            const errorMsg = 'Database response error: ' + err.status;
+            const tr = $("<tr>").append($("<td>").text(errorMsg));
+            $("#result").append(tr);
           }
-        })
-      })
-      .catch(err => {
-        console.error(err);
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        td.innerHTML = err;
-        tr.appendChild(td);
-        resultContainer.appendChild(tr);
-      });
-  }
-</script>
+        });
+      }
+
+      // Attach the fetch function to the button click event
+      $("#fetchButton").click(fetchData);
+    });
+  </script>
+</body>
+</html>
