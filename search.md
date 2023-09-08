@@ -47,6 +47,7 @@
           <option value="expert">expert</option>
       </select>
     <br>
+    <br>
     <button class="btn" id="searchExercise">Search for Exercise</button>
     </div>
     <br>
