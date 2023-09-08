@@ -1,55 +1,76 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    <title>ExerciseAdventure</title>
+    <link rel="stylesheet" href="style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <label for="type">Choose an exercise type:</label>
-  <select id="type" name="type">
-    <option value="cardio">cardio</option>
-    <option value="olympic_weightlifting">weight lifting</option>
-    <option value="strength">strength training</option>
-    <option value="stretching">flexibility</option>
-  </select>
-  <br>
-  <label for="muscle">Choose a muscle:</label>
-  <select id="muscle" name="muscle">
-    <option value="abdominals">abs</option>
-    <option value="biceps">biceps</option>
-    <option value="calves">calves</option>
-    <option value="chest">chest</option>
-    <option value="forearms">forearms</option>
-    <option value="hamstrings">hamstrings</option>
-    <option value="lower_back">back</option>
-    <option value="quadriceps">quads</option>
-    <option value="triceps">triceps</option>
-  </select>
-  <br>
-  <label for="difficulty">Choose a difficulty:</label>
-  <select id="difficulty" name="difficulty">
-    <option value="beginner">beginner</option>
-    <option value="intermediate">intermediate</option>
-    <option value="expert">expert</option>
-  </select>
-  <button id="addExercise">Add Exercise</button>
-  <table id="result">
+  <div class="header2">
+    <nav>
+      <div class="logo">
+        <img src="images/logo2.png">
+        <span>ExerciseAdventure.</span>
+      </div>
+      <ul>
+        <li><a href = "">Home</a></li>
+        <li><a href = "search">Search</a></li>
+      </ul>
+    </nav>
+    <h2>Find an Exercise</h2>
+    <div class="selection">
+      <label for="type">Choose an exercise type:</label>
+      <select id="type" name="type">
+          <option value="cardio">cardio</option>
+          <option value="olympic_weightlifting">weight lifting</option>
+          <option value="strength">strength training</option>
+          <option value="stretching">flexibility</option>
+      </select>
+      <br>
+      <label for="muscle">Choose a muscle:</label>
+      <select id="muscle" name="muscle">
+          <option value="abdominals">abs</option>
+          <option value="biceps">biceps</option>
+          <option value="calves">calves</option>
+          <option value="chest">chest</option>
+          <option value="forearms">forearms</option>
+          <option value="hamstrings">hamstrings</option>
+          <option value="lower_back">back</option>
+          <option value="quadriceps">quads</option>
+          <option value="triceps">triceps</option>
+      </select>
+      <br>
+      <label for="difficulty">Choose a difficulty:</label>
+      <select id="difficulty" name="difficulty">
+          <option value="beginner">beginner</option>
+          <option value="intermediate">intermediate</option>
+          <option value="expert">expert</option>
+      </select>
+    <br>
+    <br>
+    <button class="btn" id="searchExercise">Search for Exercise</button>
+    </div>
+    <table id="result">
     <thead>
       <tr>
-        <th>Type</th>
-        <th>Muscle</th>
-        <th>Difficulty</th>
-        <th>Exercise name</th> 
-        <th>Instruction</th>
-        <th>Equipment needed</th>
+          <th>Type</th>
+          <th>Muscle</th>
+          <th>Difficulty</th>
+          <th>Exercise name</th> 
+          <th>Instruction</th>
+          <th>Equipment needed</th>
       </tr>
     </thead>
     <tbody>
-      <!-- data goes here-->
+        <!-- data goes here-->
     </tbody>
-  </table>
+    </table>
+  </div>
+</body>
 
   <script>
     $(document).ready(function () {
-      $("#addExercise").click(function () {
+      $("#searchExercise").click(function () {
         // dropdown values
         const type = $("#type").val();
         const muscle = $("#muscle").val();
