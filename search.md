@@ -13,8 +13,8 @@
         <span>ExerciseAdventure.</span>
       </div>
       <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="search">Search</a></li>
+        <li><a href="https://ekamjot-kaire.github.io/AmazonWebsite">Home</a></li>
+        <li><a href="https://ekamjot-kaire.github.io/AmazonWebsite/search">Search</a></li>
       </ul>
     </nav>
     <h2>Find an Exercise</h2>
