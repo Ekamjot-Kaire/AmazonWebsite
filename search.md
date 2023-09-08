@@ -3,7 +3,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-  <label for="type">Choose a exercise type:</label>
+  <label for="type">Choose an exercise type:</label>
   <select id="type" name="type">
     <option value="cardio">cardio</option>
     <option value="olympic_weightlifting">weight lifting</option>
@@ -24,31 +24,33 @@
     <option value="triceps">triceps</option>
   </select>
   <br>
-  <label for="diff">Choose a difficulty:</label>
-  <select id="diff" name="diff">
+  <label for="difficulty">Choose a difficulty:</label>
+  <select id="difficulty" name="difficulty">
     <option value="beginner">beginner</option>
     <option value="intermediate">intermediate</option>
     <option value="expert">expert</option>
   </select>
-  <br>
-  <button id="addExercise">Add exercise</button>
-<table id="result">
+  <button id="addExercise">Add Exercise</button>
+  <table id="result">
     <thead>
       <tr>
         <th>Type</th>
         <th>Muscle</th>
         <th>Difficulty</th>
+        <th>Exercise name</th> 
+        <th>Instruction</th>
+        <th>Equipment needed</th>
       </tr>
     </thead>
     <tbody>
-      <!-- data added here -->
+      <!-- data goes here-->
     </tbody>
   </table>
 
   <script>
     $(document).ready(function () {
       $("#addExercise").click(function () {
-        //collecting selected values from dropdown
+        // dropdown values
         const type = $("#type").val();
         const muscle = $("#muscle").val();
         const difficulty = $("#difficulty").val();
@@ -74,19 +76,36 @@
         // ajax request
         $.ajax(settings).done(function (response) {
           console.log(response);
+
+          if (response.length === 0) {
+            alert("No exercises found, please try something else!");
+          } else {
+
+            const randomIndex = Math.floor(Math.random() * response.length);
+            const randomExerciseName = response[randomIndex].name;
+            const ExerciseInstruction = response[randomIndex].instructions;
+            const ExerciseEquip = response[randomIndex].equipment;
+
+            const newRow = $("<tr>");
+            newRow.append($("<td>").text(type));
+            newRow.append($("<td>").text(muscle));
+            newRow.append($("<td>").text(difficulty));
+            newRow.append($("<td>").text(randomExerciseName)); 
+            newRow.append($("<td>").text(ExerciseInstruction)); 
+            newRow.append($("<td>").text(ExerciseEquip));
+            $("tbody").append(newRow);
+          }
+        })
+        .fail(function () {
+          alert("Failed to fetch exercise data from the API.");
         });
 
-        const newRow = $("<tr>");
-        newRow.append($("<td>").text(type));
-        newRow.append($("<td>").text(muscle));
-        newRow.append($("<td>").text(difficulty));
-        $("tbody").append(newRow);
+        // Clear the select elements for the next entry
         $("#type").val("");
         $("#muscle").val("");
         $("#difficulty").val("");
       });
     });
-
   </script>
 </body>
 </html>
