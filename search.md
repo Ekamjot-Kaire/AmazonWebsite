@@ -18,12 +18,11 @@
         // clear previous results
         $("#result").empty();
 
-        // get user input
         const locationInput = $("#locationInput").val();
         const priceInput = $("#priceInput").val();
 
         // prepare fetch options
-        const url = 'https://booking-com.p.rapidapi.com/v1/metadata/exchange-rates?currency=AED&locale=en-gb';
+        const url = 'https://booking-com.p.rapidapi.com/v1/hotels/search';
         const headers = {
           'X-RapidAPI-Key': '68e33219d8msh2a2a73644dd8e5ep1ffc0djsn22e47a8354fe',
           'X-RapidAPI-Host': 'booking-com.p.rapidapi.com'
