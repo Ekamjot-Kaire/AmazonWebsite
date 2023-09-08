@@ -47,26 +47,28 @@
           <option value="expert">expert</option>
       </select>
     <br>
-    <br>
     <button class="btn" id="searchExercise">Search for Exercise</button>
     </div>
-    <table id="result">
-    <thead>
-      <tr>
-          <th>Type</th>
-          <th>Muscle</th>
-          <th>Difficulty</th>
-          <th>Exercise name</th> 
-          <th>Instruction</th>
-          <th>Equipment needed</th>
-      </tr>
-    </thead>
-    <tbody>
-        <!-- data goes here-->
-    </tbody>
+    <br>
+    <br>
+    <table class="content-table" id="result">
+      <thead>
+        <tr>
+            <th>Type</th>
+            <th>Muscle</th>
+            <th>Difficulty</th>
+            <th>Exercise name</th> 
+            <th>Instruction</th>
+            <th>Equipment needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <!-- data goes here-->
+        </tr>
+      </tbody>
     </table>
   </div>
-</body>
 
   <script>
     $(document).ready(function () {

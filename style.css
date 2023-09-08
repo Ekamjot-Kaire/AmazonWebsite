@@ -14,8 +14,6 @@
 .header2{
     width: 200vh;
     height: 100vh;
-    background-size: cover;
-    background-position: center;
 }
 nav{
     width: 168vh;
@@ -118,4 +116,35 @@ h2{
     font-size: 30px;
     color: #ffdcdb;
     line-height: 50px;
+}
+.content-table{
+    margin-left: 150px;
+    border-collapse: collapse;
+    margin-right: 120px;
+}
+.content-table th{
+    color:#fff;
+    font-size: 24px;
+    text-align: center;
+}
+.content-table tr{
+    color:#000000;
+    font-size: 24px;
+    text-align: center;
+}
+.content-table th, .content-table td{
+    padding: 12px 15px;
+}
+.content-table thead tr{
+    background-color: #f0615d;
+}
+.content-table tbody tr{
+    background-color: #ffffff;
+    border-bottom: 1px solid #dbdbdb;
+}
+.content-table tbody tr:nth-of-type(even){
+    background-color:#ffdcdb;
+}
+.content-table tbody tr:last-of-type{
+    border-bottom: 5px solid #f0615d;
 }
